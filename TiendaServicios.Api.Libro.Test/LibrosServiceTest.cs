@@ -19,6 +19,8 @@ namespace TiendaServicios.Api.Libro.Test
     {
         private IEnumerable<LibreriaMaterial> ObtenerDataPruena()
         {
+            //Este metodo es para llenar data de genfu
+           
             A.Configure<LibreriaMaterial>()
                 .Fill(x => x.Titulo).AsArticleTitle()
                 .Fill(x => x.LibreriaMaterialId, () => { return Guid.NewGuid(); });
