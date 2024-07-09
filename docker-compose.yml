@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  tiendaservicios.api.libros:
+    image: ${DOCKER_REGISTRY-}tiendaserviciosapilibros
+    build:
+      context: .
+      dockerfile: TiendaServicios.Api.Libros/Dockerfile
+
+  tiendaservice.api.autor:
+    image: ${DOCKER_REGISTRY-}tiendaserviceapiautor
+    build:
+      context: .
+      dockerfile: TiendaService.Api.Autor/Dockerfile
+
