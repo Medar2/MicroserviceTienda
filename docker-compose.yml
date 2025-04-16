@@ -6,12 +6,17 @@ services:
     build:
       context: .
       dockerfile: TiendaServicios.Api.Libros/Dockerfile
+    networks:
+      - microservicenet
 
   tiendaservice.api.autor:
     image: ${DOCKER_REGISTRY-}tiendaserviceapiautor
     build:
       context: .
       dockerfile: TiendaService.Api.Autor/Dockerfile
-  network:
-    default:
-        name: microservicenet
+    networks:
+      - microservicenet
+
+networks:
+  microservicenet:
+    driver: bridge
