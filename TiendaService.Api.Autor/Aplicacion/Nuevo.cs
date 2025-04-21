@@ -36,25 +36,29 @@ namespace TiendaService.Api.Autor.Aplicacion
             {
                 this._contextoAutor = contextoAutor;
             }
+
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var autrolibro = new AutorLibro
-                {
-                    Nombre = request.Nombre,
-                    Apellido = request.Apellido,
-                    FechaNacimiento = request.FechaNacimiento,
-                    AutorLibroGuid = Guid.NewGuid().ToString(),
-                };
+                var fechaNacimiento = DateTime.UtcNow;
+
+                  var autrolibro = new AutorLibro
+                    {
+                        Nombre = request.Nombre,
+                        Apellido = request.Apellido,
+                        FechaNacimiento = request.FechaNacimiento == null 
+                            ? fechaNacimiento 
+                            : DateTime.SpecifyKind(request.FechaNacimiento.Value, DateTimeKind.Utc),
+                        AutorLibroGuid = Guid.NewGuid().ToString(),
+                    };
                 
                 _contextoAutor.AutorLibro.Add(autrolibro);
-               var valor = await _contextoAutor.SaveChangesAsync();
+                var valor = await _contextoAutor.SaveChangesAsync();
 
                 if (valor > 0)
                 {
                     return Unit.Value;
                 }
                 throw new Exception("No se pudo insertar el Autor del Libro");
-
             }
         }
 
