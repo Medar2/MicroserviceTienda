@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: TiendaServicios.Api.Libros/Dockerfile
+    ports:
+      - "6105:8080"
     networks:
       - microservicenet
 
@@ -14,6 +16,8 @@ services:
     build:
       context: .
       dockerfile: TiendaService.Api.Autor/Dockerfile
+    ports:
+      - "6104:8080"
     networks:
       - microservicenet
 

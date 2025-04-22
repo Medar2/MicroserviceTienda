@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Copiamos solo los archivos necesarios (si querés)
+COPY . . 
+
+# Exponé el puerto
+EXPOSE 8080
+ENV ASPNETCORE_HTTP_PORTS=8080
+
+# Instalar dotnet watch (opcional en .NET 8, ya viene)
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080"]
