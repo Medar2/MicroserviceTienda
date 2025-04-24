@@ -1,21 +1,59 @@
 version: '3.4'
 
 services:
+
+  # PostgreSQL para servicio AUTOR
+  pg_autor_db:
+    image: postgres:latest
+    container_name: pg_store_dev
+    environment:
+      - POSTGRES_DB=tiendalibroautor
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5490:5432"
+    volumes:
+      - pg_store_dev:/var/lib/postgresql/data
+    networks:
+      - microservicenet
+
+  # SQL Server para servicio LIBROS
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SqlServer2022
+    ports:
+      - "1434:1433"
+    volumes:
+      - sql_server_data:/var/opt/mssql
+    networks:
+      - microservicenet
+
   tiendaservicios.api.libros:
+    container_name: tiendaserviciosapi_libros
     image: ${DOCKER_REGISTRY-}tiendaserviciosapilibros
     build:
       context: .
       dockerfile: TiendaServicios.Api.Libros/Dockerfile
+    environment:
+      - SQLSERVER_DATABASE=Server=sql_server;Database=tiendalibros;User Id=sa;Password=SqlServer2022;
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "6105:8080"
     networks:
       - microservicenet
 
   tiendaservice.api.autor:
+    container_name: tiendaserviceapi_autor
     image: ${DOCKER_REGISTRY-}tiendaserviceapiautor
     build:
       context: .
       dockerfile: TiendaService.Api.Autor/Dockerfile
+    environment:
+      - POSTGRE_DATABASE=Server=pg_store_dev;Port=5432;Database=tiendalibroautor;User Id=postgres;Password=postgres;
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "6104:8080"
     networks:
@@ -24,3 +62,7 @@ services:
 networks:
   microservicenet:
     driver: bridge
+
+volumes:
+  pg_store_dev:
+  sql_server_data:
