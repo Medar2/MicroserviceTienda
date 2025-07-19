@@ -35,7 +35,8 @@ namespace TiendaServicios.Api.CarritoCompra
             services.AddControllers();
             services.AddDbContext<CarritoContexto>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("MYSQL_DATABASE"));
+                var connetionString = Configuration.GetConnectionString("MYSQL_DATABASE");
+                options.UseMySQL(connetionString);
             });
 
             services.AddMediatR(typeof(Nuevo.Manejador).Assembly);
