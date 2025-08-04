@@ -59,6 +59,12 @@ services:
     networks:
       - microservicenet
 
+  tiendaservicios.api.carritocompra:
+    image: ${DOCKER_REGISTRY-}tiendaserviciosapi
+    build:
+      context: .
+      dockerfile: TiendaServicios.Api.CarritoCompra/Dockerfile
+
 networks:
   microservicenet:
     driver: bridge
@@ -66,3 +72,4 @@ networks:
 volumes:
   pg_store_dev:
   sql_server_data:
+

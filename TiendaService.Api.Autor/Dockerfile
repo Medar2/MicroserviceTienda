@@ -24,3 +24,8 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TiendaService.Api.Autor.dll"]
+
+# crear contenedor para muSql
+# docker run --name mysql-server -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=tienda -p 3306:3306 -d mysql
+
+

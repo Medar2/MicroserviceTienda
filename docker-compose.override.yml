@@ -9,15 +9,17 @@ services:
       - "6105:8080"
 
   tiendaservice.api.autor:
-    # build:
-    #   context: .
-    #   dockerfile: TiendaService.Api.Autor/Dockerfile
-    # volumes:
-    #   - ./TiendaService.Api.Autor:/app        
-    #   - ~/.nuget/packages:/root/.nuget/packages:ro 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
     ports:
       - "6104:8080"
+
+
+  tiendaservicios.api.carritocompra:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Libros=http://tiandaservicios.api.libro
+    ports:
+      - "6106:8080"
 
