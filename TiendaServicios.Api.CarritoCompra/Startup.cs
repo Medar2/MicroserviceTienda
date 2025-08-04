@@ -1,17 +1,11 @@
-using AutoMapper;
+using System;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TiendaServicios.Api.CarritoCompra.Aplicacion;
 using TiendaServicios.Api.CarritoCompra.Persistencia;
 using TiendaServicios.Api.CarritoCompra.RemoteInterface;
@@ -35,7 +29,8 @@ namespace TiendaServicios.Api.CarritoCompra
             services.AddControllers();
             services.AddDbContext<CarritoContexto>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("MYSQL_DATABASE"));
+                var connetion = Configuration.GetConnectionString("MYSQL_DATABASE");
+                options.UseMySql(connetion, new MySqlServerVersion(new Version(8, 0, 3)));
             });
 
             services.AddMediatR(typeof(Nuevo.Manejador).Assembly);

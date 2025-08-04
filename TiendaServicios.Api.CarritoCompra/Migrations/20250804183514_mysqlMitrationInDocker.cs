@@ -1,35 +1,44 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.Data.EntityFrameworkCore.Metadata;
+
+#nullable disable
 
 namespace TiendaServicios.Api.CarritoCompra.Migrations
 {
-    public partial class MySqlMigrations : Migration
+    /// <inheritdoc />
+    public partial class mysqlMitrationInDocker : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "CarritoSesion",
                 columns: table => new
                 {
-                    CarritoSesionId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    FechaCreacion = table.Column<DateTime>(nullable: true)
+                    CarritoSesionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarritoSesion", x => x.CarritoSesionId);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CarritoSesionDetalle",
                 columns: table => new
                 {
-                    CarritoSesionDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    FechaCreacion = table.Column<DateTime>(nullable: true),
-                    ProductoSeleccionado = table.Column<string>(nullable: true),
-                    CarritoSesionId = table.Column<int>(nullable: false)
+                    CarritoSesionDetalleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ProductoSeleccionado = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CarritoSesionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +49,8 @@ namespace TiendaServicios.Api.CarritoCompra.Migrations
                         principalTable: "CarritoSesion",
                         principalColumn: "CarritoSesionId",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CarritoSesionDetalle_CarritoSesionId",
@@ -48,6 +58,7 @@ namespace TiendaServicios.Api.CarritoCompra.Migrations
                 column: "CarritoSesionId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
